@@ -52,7 +52,6 @@ public class Main {
         }
         pools.distribute_water();
 
-
         //Sixth step
         for (int i = 0; i < N; i++) {
             pools.show_water(i);
