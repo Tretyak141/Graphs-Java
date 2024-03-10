@@ -21,13 +21,10 @@ public class Graph {
         pools[num2].add_edge(num1);
         return true;
     }
-    public boolean delete_connection(int num1,int num2)
+    public void delete_connection(int num1,int num2)
     {
-        if (!pools[num1].is_connected(num2))
-            return false;
         pools[num1].delete_edge(num2);
         pools[num2].delete_edge(num1);
-        return true;
     }
     public void add_water(int num, int water)
     {
