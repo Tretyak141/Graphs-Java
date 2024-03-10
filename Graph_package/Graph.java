@@ -8,7 +8,6 @@ public class Graph {
 
     public Graph(int n)
     {
-        Pool tmp;
         pools = new Pool[n];
         for (int i=0;i<n;i++)
             pools[i] = new Pool();
