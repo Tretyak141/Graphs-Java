@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
-    private final int N = 25_000_000;
+    private Pool[] pools;
 
-    private final int K = 10_000_000;
-    private final int M = 2_000_000;
-    private final int L = 30_000_000;
-    Pool[] pools;
-
-    public Graph()
+    public Graph(int n)
     {
         Pool tmp;
-        pools = new Pool[N];
-        for (int i=0;i<N;i++)
+        pools = new Pool[n];
+        for (int i=0;i<n;i++)
             pools[i] = new Pool();
     }
     public boolean create_connection(int num1,int num2)
@@ -46,12 +41,12 @@ public class Graph {
 
     public void distribute_water()
     {
-        for (int i=0;i<N;i++)
+        for (int i=0;i<pools.length;i++)
         {
             if (!pools[i].distributed)
                 distribute_component(i);
         }
-        for (int i=0;i<N;i++)
+        for (int i=0;i<pools.length;i++)
             pools[i].distributed = false;
     }
 
