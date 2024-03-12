@@ -1,10 +1,10 @@
 package Graph_package;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 public class Graph {
-    private Pool[] pools;
+    private final Pool[] pools;
 
     public Graph(int n)
     {
@@ -48,20 +48,18 @@ public class Graph {
 
     private void set_nulls(int num1) {
         pools[num1].passed = false;
-        List<Integer> stack = new ArrayList<>();
-        stack.add(num1);
-        while(stack.size()>0)
+        Stack<Integer> stack = new Stack<>();
+        stack.push(num1);
+        while(!stack.isEmpty())
         {
-            int end_pos = stack.size() - 1;
-            Integer current = stack.get(end_pos);
-            stack.remove(end_pos);
+            Integer current = stack.pop();
             int counter_of_edges = pools[current].connected.size();
 
             for (int i=0;i<counter_of_edges;i++) {
                 int tmp_number = pools[current].connected.get(i);
                 if (pools[tmp_number].passed) {
                     pools[tmp_number].passed = false;
-                    stack.add(tmp_number);
+                    stack.push(tmp_number);
                 }
             }
         }
@@ -70,22 +68,19 @@ public class Graph {
 
     private int count_connected(int num)
     {
-        List<Integer> stack = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
         stack.add(num);
         int ans = 1;
         pools[num].passed = true;
-        while (stack.size()>0) {
-            int end_pos = stack.size() - 1;
-            Integer current = stack.get(end_pos);
-            stack.remove(current);
+        while (!stack.isEmpty()) {
+            Integer current = stack.pop();
             int counter_of_edges = pools[current].connected.size();
-
             for (int i = 0; i < counter_of_edges; i++) {
                 int tmp_number = pools[current].connected.get(i);
                 if (!pools[tmp_number].passed) {
                     pools[tmp_number].passed = true;
                     ans++;
-                    stack.add(tmp_number);
+                    stack.push(tmp_number);
                 }
             }
         }
@@ -94,14 +89,12 @@ public class Graph {
     }
 
     private double average_volume(int num) {
-        List<Integer> stack = new ArrayList<>();
-        stack.add(num);
+        Stack<Integer> stack = new Stack<>();
+        stack.push(num);
         double ans = pools[num].volume;
         pools[num].passed = true;
-        while (stack.size() > 0) {
-            int end_pos = stack.size() - 1;
-            Integer current = stack.get(end_pos);
-            stack.remove(current);
+        while (!stack.isEmpty()) {
+            Integer current = stack.pop();
             int counter_of_edges = pools[current].connected.size();
 
             for (int i = 0; i < counter_of_edges; i++) {
@@ -109,7 +102,7 @@ public class Graph {
                 if (!pools[tmp_number].passed) {
                     pools[tmp_number].passed = true;
                     ans += pools[tmp_number].volume;
-                    stack.add(tmp_number);
+                    stack.push(tmp_number);
                 }
             }
         }
@@ -119,16 +112,14 @@ public class Graph {
     }
     private void distribute_component(int num)
     {
-        List<Integer> stack = new ArrayList<>();
-        stack.add(num);
+        Stack<Integer> stack = new Stack<>();
+        stack.push(num);
         double av_volume = average_volume(num);
         pools[num].volume = average_volume(num);
         pools[num].passed = true;
         pools[num].distributed = true;
-        while (stack.size() > 0) {
-            int end_pos = stack.size() - 1;
-            Integer current = stack.get(end_pos);
-            stack.remove(current);
+        while (!stack.isEmpty()) {
+            Integer current = stack.pop();
             int counter_of_edges = pools[current].connected.size();
 
             for (int i = 0; i < counter_of_edges; i++) {
@@ -137,7 +128,7 @@ public class Graph {
                     pools[tmp_number].passed = true;
                     pools[tmp_number].distributed = true;
                     pools[tmp_number].volume = av_volume;
-                    stack.add(tmp_number);
+                    stack.push(tmp_number);
                 }
             }
         }
